@@ -11,14 +11,14 @@ export default function NumberContainer({ number }) {
 
 const styles = StyleSheet.create({
 	numberContainer: {
-    borderWidth: 1,
-    borderColor: "#000",
-    padding: 5,
-    borderRadius: 5,
-  },
+		borderWidth: 2,
+		borderColor: "#000",
+		padding: 5,
+		borderRadius: 5,
+	},
 
 	number: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
+		fontSize: 20,
+		fontWeight: "bold",
+	},
 });

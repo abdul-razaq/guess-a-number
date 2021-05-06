@@ -47,6 +47,7 @@ export default function StartGameScreen(props) {
 		setConfirmed(true);
 		setSelectedNumber(chosenNumber);
 		setEnteredValue("");
+    Keyboard.dismiss();
 	}
 
 	let confirmedOutput;
@@ -55,7 +56,7 @@ export default function StartGameScreen(props) {
 		confirmedOutput = (
 			<Card style={styles.summaryContainer}>
 				<Text>You selected:</Text>
-        <NumberContainer number={selectedNumber} />
+				<NumberContainer>{selectedNumber}</NumberContainer>
 				<View style={styles.button}>
 					<Button
 						title="START GAME"
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
 	},
 
   summaryContainer: {
-    height: 150,
+    height: 170,
     marginTop: 20,
     justifyContent: "space-between",
     alignItems: "center",

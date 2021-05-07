@@ -11,7 +11,7 @@ import {
 
 import Card from "../components/Card";
 import Input from "../components/Input";
-import NumberContainer from '../components/NumberContainer';
+import NumberContainer from "../components/NumberContainer";
 
 import Colors from "../constants/colors";
 
@@ -47,7 +47,7 @@ export default function StartGameScreen(props) {
 		setConfirmed(true);
 		setSelectedNumber(chosenNumber);
 		setEnteredValue("");
-    Keyboard.dismiss();
+		Keyboard.dismiss();
 	}
 
 	let confirmedOutput;
@@ -61,7 +61,7 @@ export default function StartGameScreen(props) {
 					<Button
 						title="START GAME"
 						color={Colors.primary}
-						onPress={() => {}}
+						onPress={props.onGameStart.bind(null, selectedNumber)}
 					/>
 				</View>
 			</Card>
@@ -144,11 +144,11 @@ const styles = StyleSheet.create({
 		width: "45%",
 	},
 
-  summaryContainer: {
-    height: 170,
-    marginTop: 20,
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
-  },
+	summaryContainer: {
+		height: 170,
+		marginTop: 20,
+		justifyContent: "space-between",
+		alignItems: "center",
+		padding: 20,
+	},
 });

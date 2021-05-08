@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import TitleText from './TitleText';
 import Colors from '../constants/colors';
 
 export default function Header({ title }) {
 
   return (
     <View style={styles.header}>
-      <Text style={styles.headerText}>{ title }</Text>
+      <TitleText style={styles.headerText}>{ title }</TitleText>
     </View>
   );
 }

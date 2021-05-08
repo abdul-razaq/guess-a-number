@@ -9,6 +9,9 @@ import {
 	Alert,
 } from "react-native";
 
+import TitleText from "../components/TitleText";
+import BodyText from "../components/BodyText";
+
 import Card from "../components/Card";
 import Input from "../components/Input";
 import NumberContainer from "../components/NumberContainer";
@@ -55,7 +58,7 @@ export default function StartGameScreen(props) {
 	if (confirmed) {
 		confirmedOutput = (
 			<Card style={styles.summaryContainer}>
-				<Text>You selected:</Text>
+				<BodyText>You selected:</BodyText>
 				<NumberContainer>{selectedNumber}</NumberContainer>
 				<View style={styles.button}>
 					<Button
@@ -71,10 +74,10 @@ export default function StartGameScreen(props) {
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<View style={styles.screen}>
-				<Text style={styles.title}>Start A New Game!</Text>
+				<TitleText style={styles.title}>Start A New Game!</TitleText>
 
 				<Card style={styles.inputContainer}>
-					<Text>Select A Number</Text>
+					<BodyText>Select A Number</BodyText>
 
 					<Input
 						keyboardType="number-pad"

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import {
 	View,
-	Text,
-	StyleSheet,
 	Button,
+	StyleSheet,
 	TouchableWithoutFeedback,
 	Keyboard,
 	Alert,
@@ -12,6 +11,7 @@ import {
 import TitleText from "../components/TitleText";
 import BodyText from "../components/BodyText";
 
+import PrimaryButton from "../components/PrimaryButton";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import NumberContainer from "../components/NumberContainer";
@@ -61,11 +61,12 @@ export default function StartGameScreen(props) {
 				<BodyText>You selected:</BodyText>
 				<NumberContainer>{selectedNumber}</NumberContainer>
 				<View style={styles.button}>
-					<Button
-						title="START GAME"
+					<PrimaryButton
 						color={Colors.primary}
 						onPress={props.onGameStart.bind(null, selectedNumber)}
-					/>
+					>
+						START GAME
+					</PrimaryButton>
 				</View>
 			</Card>
 		);

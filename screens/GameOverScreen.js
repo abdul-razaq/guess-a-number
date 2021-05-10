@@ -31,7 +31,7 @@ export default function GameOverScreen(props) {
 					<Text style={styles.highlight}>{props.selectedNumber}</Text>
 				</BodyText>
 			</View>
-			<PrimaryButton onPress={props.onNewGame}>NEW GAME</PrimaryButton>
+			<PrimaryButton onPress={props.onNewGame} color={Colors.primary}>NEW GAME</PrimaryButton>
 		</View>
 	);
 }

@@ -6,6 +6,8 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 	Alert,
+	Dimensions,
+	KeyboardAvoidingView,
 } from "react-native";
 
 import TitleText from "../components/TitleText";
@@ -22,6 +24,20 @@ export default function StartGameScreen(props) {
 	const [enteredValue, setEnteredValue] = useState("");
 	const [confirmed, setConfirmed] = useState(false);
 	const [selectedNumber, setSelectedNumber] = useState();
+	const [buttonWidth, setButtonWidth] = useState(
+		Dimensions.get("window").width / 4
+	);
+
+	useEffect(() => {
+		function updateLayout() {
+			setButtonWidth(Dimensions.get("window").width / 4);
+		}
+		// Recalculate the width Dimensions when the screen orientation changes
+		Dimensions.addEventListener("change", updateLayout);
+		return function () {
+			Dimensions.removeEventListener("change", updateLayout);
+		};
+	});
 
 	function enteredTextHandler(enteredText) {
 		setEnteredValue(enteredText.replace(/[^0-9]/g, ""));
@@ -73,44 +89,48 @@ export default function StartGameScreen(props) {
 	}
 
 	return (
-		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-			<View style={styles.screen}>
-				<TitleText style={styles.title}>Start A New Game!</TitleText>
+		<ScrollView>
+			<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={30}>
+				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+					<View style={styles.screen}>
+						<TitleText style={styles.title}>Start A New Game!</TitleText>
 
-				<Card style={styles.inputContainer}>
-					<BodyText>Select A Number</BodyText>
+						<Card style={styles.inputContainer}>
+							<BodyText>Select A Number</BodyText>
 
-					<Input
-						keyboardType="number-pad"
-						blurOnSubmit
-						autoCapitalize="none"
-						autoCorrect={false}
-						maxLength={2}
-						style={styles.input}
-						value={enteredValue}
-						onChangeText={enteredTextHandler}
-					/>
-
-					<View style={styles.buttonContainer}>
-						<View style={styles.button}>
-							<Button
-								title="RESET"
-								onPress={resetInputHandler}
-								color={Colors.accent}
+							<Input
+								keyboardType="number-pad"
+								blurOnSubmit
+								autoCapitalize="none"
+								autoCorrect={false}
+								maxLength={2}
+								style={styles.input}
+								value={enteredValue}
+								onChangeText={enteredTextHandler}
 							/>
-						</View>
-						<View style={styles.button}>
-							<Button
-								title="CONFIRM"
-								onPress={confirmInputHandler}
-								color={Colors.primary}
-							/>
-						</View>
+
+							<View style={styles.buttonContainer}>
+								<View style={buttonWidth}>
+									<Button
+										title="RESET"
+										onPress={resetInputHandler}
+										color={Colors.accent}
+									/>
+								</View>
+								<View style={buttonWidth}>
+									<Button
+										title="CONFIRM"
+										onPress={confirmInputHandler}
+										color={Colors.primary}
+									/>
+								</View>
+							</View>
+						</Card>
+						{confirmedOutput}
 					</View>
-				</Card>
-				{confirmedOutput}
-			</View>
-		</TouchableWithoutFeedback>
+				</TouchableWithoutFeedback>
+			</KeyboardAvoidingView>
+		</ScrollView>
 	);
 }
 
@@ -127,8 +147,18 @@ const styles = StyleSheet.create({
 	},
 
 	inputContainer: {
-		width: 300,
-		maxWidth: "80%",
+		// we want a fixed width of 80% for all big screens
+		// and then we can make sure we have a minimum width of 300.
+		width: "80%",
+		// when we are on a small device, the minimum width that should be applied is 300
+		// so on a small device, the minWidth of 300 is applied instead of the width of 80%
+		// on a smaller device, minWidth of 300 can even cause this container to overflow to the edges...
+		// i.e on a smaller device, the width might be smaller than 300px which can cause this container to overflow to the edges...
+		// For this, to ensure that the container never leave our boundaries even on a very small device that has a width that is less than 300px, we need to set the maxWidth to a value e.g 90%.
+		minWidth: 300,
+		// with this maxWidth value, we ensure that our container never goes outside of the screen edges.
+		// But in summary, our container takes 80% of the screen by default on larger devices, but if we have a smaller screen, then the width of 300px is applied, but the container will never take more than 95% of the available width no matter how small the device screen is... So that means no matter how the device screen width is small, the container will never take more than 95% of the entire available width... that means there will still be 5% spacing available in the entire screen no matter how small the device is and the container will not overflow to the edges since the container didn't take 100% of the spaces but 95% and there is 5% spacing left no matter now small the device width is, 5% spacing will always be available so that the container does not get to the edges...
+		maxWidth: "95%",
 		alignItems: "center",
 	},
 
@@ -144,9 +174,10 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 15,
 	},
 
-	button: {
-		width: "45%",
-	},
+	// button: {
+	// 	// width: "45%",
+	// 	width: Dimensions.get("window").width / 4,
+	// },
 
 	summaryContainer: {
 		height: 170,
